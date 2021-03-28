@@ -5,17 +5,21 @@ root = tree.getroot()
 
 dict = {}
 
+
 for elem in tree.iter():
     if len(elem) > 0:
-        item = str(elem)
-        dict[item] = str(list(elem.iter()))
+        lastChar = str(elem)[-20:]
+        print(lastChar)
+        item = str(elem).replace("<Element '{http://www.opentravel.org/OTA/2003/05/common/}", "")
+        dict[item] = {"element": list(str(elem.iter()).join(" ")), "attributes": elem.attrib}
+    if len(elem) == 0:
+        item = str(elem).replace("<Element '{http://www.opentravel.org/OTA/2003/05/common/}", "")
+        dict[item] = {"attributes": elem.attrib}
 
 
-# print(ET.tostring(root, encoding='utf8').decode('utf8'))print()
- # element.attrib
+# print(ET.tostring(root, encoding='utf8').decode('utf8'))
+#  element.attrib
+#
+j_data = json.dump(dict, open("FILENAME_parsed.json", 'w'))
+
 # print(dict)
-j_data = json.dumps(dict)
-print(j_data)
-
-with open("FILENAME_parsed.json", "w") as outfile:
-    json.dump(j_data, outfile)
